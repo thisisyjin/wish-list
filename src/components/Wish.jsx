@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { actionCreators } from '../store';
 import { Link } from 'react-router-dom';
+import { ReactComponent as Delete } from '../assets/delete.svg';
 
 const Wish = ({ text, deleteWishes, id }) => {
   const onClickButton = () => {
@@ -12,7 +13,7 @@ const Wish = ({ text, deleteWishes, id }) => {
         {text}
       </Link>
       <button className="home-delete-button" onClick={onClickButton}>
-        DEL
+        <Delete />
       </button>
     </li>
   );

@@ -1,13 +1,18 @@
-import { Link } from 'react-router-dom';
+import { StyledLink, DeleteBlock } from '../styles/DetailStyle';
+import { ReactComponent as Delete } from '../assets/delete.svg';
+
 const Deleted = () => {
   return (
-    <div className="deleted-content">
-      <p className="deleted-text">
-        Your wish come true! <br />
-        Keep Going!
-      </p>
-      <Link to="/">OK</Link>
-    </div>
+    <DeleteBlock>
+      <div className="deleted-content">
+        <Delete />
+        <p className="deleted-text">
+          Your wish come true! <br />
+          Keep Going!
+        </p>
+        <StyledLink to="/">OK</StyledLink>
+      </div>
+    </DeleteBlock>
   );
 };
 export default Deleted;

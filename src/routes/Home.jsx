@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { actionCreators } from '../store';
 import { Link } from 'react-router-dom';
+import { Container, StyledHeader, StyledMain } from '../styles/HomeStyle';
+import { ReactComponent as Plus } from '../assets/plus.svg';
+import { ReactComponent as Clear } from '../assets/clear.svg';
 
 import Wish from '../components/Wish';
 
@@ -23,28 +26,35 @@ const Home = ({ wishes, addWishes, clearAll }) => {
 
   return (
     <>
-      <header>
-        <h1 className="header-logo">
-          <Link to="/">WISH LIST</Link>
-        </h1>
-      </header>
-      <form onSubmit={onSubmitForm}>
-        <input
-          type="text"
-          value={text}
-          onChange={onChangeInput}
-          className="wish-input"
-        />
-        <button className="wish-button">Add</button>
-      </form>
-      <ul className="wish-list">
-        {wishes.map((wish) => (
-          <Wish text={wish.text} id={wish.id} key={wish.id} />
-        ))}
-      </ul>
-      <button className="clear-button" onClick={clearLocal}>
-        Clear All
-      </button>
+      <Container>
+        <StyledHeader>
+          <h1 className="header-logo">
+            <Link to="/">WISH LIST</Link>
+          </h1>
+          <form onSubmit={onSubmitForm}>
+            <input
+              type="text"
+              value={text}
+              onChange={onChangeInput}
+              className="wish-input"
+              placeholder="If you sincerely hope, It will come true."
+            />
+            <button className="wish-button">
+              <Plus />
+            </button>
+          </form>
+        </StyledHeader>
+        <StyledMain>
+          <ul className="wish-list">
+            {wishes.map((wish) => (
+              <Wish text={wish.text} id={wish.id} key={wish.id} />
+            ))}
+          </ul>
+          <button className="clear-button" onClick={clearLocal}>
+            <Clear />
+          </button>
+        </StyledMain>
+      </Container>
     </>
   );
 };

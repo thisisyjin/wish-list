@@ -1,8 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Container, StyledMain } from '../styles/HomeStyle';
+import {
+  StyledDetailHeader,
+  StyledSpan,
+  DetailInfo,
+} from '../styles/DetailStyle';
 import { actionCreators } from '../store';
 import Deleted from '../components/Deleted';
+import { ReactComponent as Delete } from '../assets/delete.svg';
 
 const Detail = ({ wish, deleteTodo }) => {
   const { id } = useParams();
@@ -24,23 +31,39 @@ const Detail = ({ wish, deleteTodo }) => {
 
   return (
     <>
-      <header>
-        <h1 className="header-logo">
-          <Link to="/">WISH LIST</Link>
-        </h1>
-      </header>
-      {wishText ? (
-        <>
-          <div>I wish ...</div>
-          <h2 className="wish-title">{wishText.text}</h2>
-          <h5 className="">written date : {writtenDateString}</h5>
-          <button className="detail-delete-button" onClick={onClickButton}>
-            DELETE
-          </button>
-        </>
-      ) : (
-        <Deleted />
-      )}
+      <Container>
+        <StyledDetailHeader>
+          <h1 className="header-logo">
+            <span className="header-span">
+              {' '}
+              “ If you sincerely hope, It will come true. “
+            </span>
+            <Link to="/">WISH LIST</Link>
+          </h1>
+        </StyledDetailHeader>
+        <StyledMain>
+          {wishText ? (
+            <>
+              <StyledSpan>I wish ...</StyledSpan>
+              <DetailInfo>
+                <h2 className="wish-title">{wishText.text}</h2>
+                <h5 className="wish-date">
+                  <span className="date-title">written date </span>{' '}
+                  {writtenDateString}
+                </h5>
+                <button
+                  className="detail-delete-button"
+                  onClick={onClickButton}
+                >
+                  <Delete />
+                </button>
+              </DetailInfo>
+            </>
+          ) : (
+            <Deleted />
+          )}
+        </StyledMain>
+      </Container>
     </>
   );
 };
