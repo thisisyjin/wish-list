@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators } from '../store';
 import { Link } from 'react-router-dom';
 import { Container, StyledHeader, StyledMain } from '../styles/HomeStyle';
@@ -8,20 +8,25 @@ import { ReactComponent as Clear } from '../assets/clear.svg';
 
 import Wish from '../components/Wish';
 
-const Home = ({ wishes, addWishes, clearAll }) => {
+const Home = () => {
+  const dispatch = useDispatch();
+
   const [text, setText] = useState('');
+
+  const wishes = useSelector((state) => state);
+
   const onChangeInput = (e) => {
     setText(e.target.value);
   };
 
   const onSubmitForm = (e) => {
     e.preventDefault();
-    addWishes(text);
+    dispatch(actionCreators.addWish(text));
     setText('');
   };
 
   const clearLocal = () => {
-    clearAll();
+    dispatch(actionCreators.clearAll());
   };
 
   return (
@@ -59,19 +64,4 @@ const Home = ({ wishes, addWishes, clearAll }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return { wishes: state };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addWishes: (text) => {
-      dispatch(actionCreators.addWish(text));
-    },
-    clearAll: () => {
-      dispatch(actionCreators.clearAll());
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

@@ -80,7 +80,7 @@ export const StyledMain = styled.main`
 
     li {
       margin-bottom: 30px;
-      font-size: 15px;
+      font-size: 16px;
     }
 
     .detail-link {

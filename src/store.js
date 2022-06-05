@@ -1,57 +1,32 @@
-import { createStore } from 'redux';
+import { configureStore, createAction, createReducer } from '@reduxjs/toolkit';
 
-const ADD = 'ADD';
-const DELETE = 'DELETE';
-const CLEAR = 'CLEAR';
+const addWish = createAction('ADD', (text) => ({ payload: { text } }));
+const deleteWish = createAction('DELETE', (id) => ({ payload: { id } }));
+const clearAll = createAction('CLEAR');
 
-const addWish = (text) => {
-  return {
-    type: ADD,
-    text,
-  };
-};
-
-const deleteWish = (id) => {
-  return {
-    type: DELETE,
-    id,
-  };
-};
-
-const clearAll = () => {
-  return {
-    type: CLEAR,
-  };
-};
+console.log(addWish());
 
 JSON.parse(localStorage.getItem('wishes')) ||
   localStorage.setItem('wishes', JSON.stringify([]));
 
-const reducer = (
-  state = JSON.parse(localStorage.getItem('wishes')),
-  action
-) => {
-  switch (action.type) {
-    case ADD:
-      const addItem = [...state, { text: action.text, id: Date.now() }];
-      localStorage.setItem('wishes', JSON.stringify(addItem));
-      return addItem;
+const reducer = createReducer(JSON.parse(localStorage.getItem('wishes')), {
+  [addWish]: (state, action) => {
+    const addItem = [...state, { text: action.payload.text, id: Date.now() }];
+    localStorage.setItem('wishes', JSON.stringify(addItem));
+    state.push({ text: action.payload.text, id: Date.now() });
+  },
+  [deleteWish]: (state, action) => {
+    const deleteItem = state.filter((toDo) => toDo.id !== action.payload.id);
+    localStorage.setItem('wishes', JSON.stringify(deleteItem));
+    return deleteItem;
+  },
+  [clearAll]: (state, action) => {
+    localStorage.setItem('wishes', JSON.stringify([]));
+    return [];
+  },
+});
 
-    case DELETE:
-      const deleteItem = state.filter((toDo) => toDo.id !== action.id);
-      localStorage.setItem('wishes', JSON.stringify(deleteItem));
-      return deleteItem;
-
-    case CLEAR:
-      localStorage.setItem('wishes', JSON.stringify([]));
-      return [];
-
-    default:
-      return state;
-  }
-};
-
-const store = createStore(reducer);
+const store = configureStore({ reducer });
 
 export const actionCreators = {
   addWish,

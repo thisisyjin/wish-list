@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, StyledMain } from '../styles/HomeStyle';
 import {
@@ -7,16 +6,20 @@ import {
   StyledSpan,
   DetailInfo,
 } from '../styles/DetailStyle';
+import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators } from '../store';
 import Deleted from '../components/Deleted';
 import { ReactComponent as Delete } from '../assets/delete.svg';
 
-const Detail = ({ wish, deleteTodo }) => {
+const Detail = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
+  const wish = useSelector((state) => state);
+
   const wishText = wish.find((wish) => wish.id === parseInt(id));
 
   const onClickButton = () => {
-    deleteTodo(id);
+    dispatch(actionCreators.deleteWish(+id));
     console.log(wish);
   };
 
@@ -68,16 +71,4 @@ const Detail = ({ wish, deleteTodo }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    wish: state,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteTodo: (id) => dispatch(actionCreators.deleteWish(+id)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Detail);
+export default Detail;
