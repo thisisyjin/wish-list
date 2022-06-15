@@ -103,6 +103,14 @@ export const DeleteBlock = styled.div`
   .deleted-text {
     margin-bottom: 40px;
     line-height: 1.75;
+
+    .date-diff {
+      display: block;
+      color: ${pallet.skyblue[1]};
+      font-size: 14px;
+      margin-top: 10px;
+      font-weight: 500;
+    }
   }
 `;
 
